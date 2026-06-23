@@ -5,4 +5,7 @@ terraform/*.tfstate
 terraform/*.tfstate.*
 terraform/*.tfvars
 !terraform/terraform.tfvars.example
-terraform/tfplan
+terraform/tfplan*
+kubernetes/backend/backend-secret.yaml
+kubernetes/database/postgresql-secret.yaml
+kubernetes/database/postgresql-secret.yaml
