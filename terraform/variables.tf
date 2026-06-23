@@ -39,6 +39,29 @@ variable "allowed_ip_cidrs" {
   default     = []
 }
 
+variable "aks_cluster_name" {
+  description = "Nome do cluster Azure Kubernetes Service."
+  type        = string
+  default     = "aks-voce-aluga-dev"
+}
+
+variable "aks_node_count" {
+  description = "Quantidade fixa de workers do AKS; o trabalho exige no minimo dois."
+  type        = number
+  default     = 2
+
+  validation {
+    condition     = var.aks_node_count >= 2
+    error_message = "O AKS deve ter ao menos dois nodes worker."
+  }
+}
+
+variable "aks_node_vm_size" {
+  description = "SKU das VMs worker do AKS."
+  type        = string
+  default     = "Standard_D2s_v3"
+}
+
 variable "tags" {
   description = "Tags aplicadas aos recursos Azure."
   type        = map(string)

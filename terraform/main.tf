@@ -18,3 +18,15 @@ module "database" {
 
   tags = var.tags
 }
+
+module "kubernetes" {
+  source = "./modules/kubernetes"
+
+  resource_group_name = azurerm_resource_group.voce_aluga.name
+  location            = azurerm_resource_group.voce_aluga.location
+  cluster_name        = var.aks_cluster_name
+  node_count          = var.aks_node_count
+  node_vm_size        = var.aks_node_vm_size
+
+  tags = var.tags
+}

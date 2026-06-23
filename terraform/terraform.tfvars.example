@@ -1,5 +1,7 @@
 postgresql_server_name = "server-name"
 
+aks_cluster_name = "aks-voce-aluga-dev"
+
 allowed_ip_cidrs = ["ip-publico/32"]
 
 postgresql_administrator_password = "uma-senha-forte"
