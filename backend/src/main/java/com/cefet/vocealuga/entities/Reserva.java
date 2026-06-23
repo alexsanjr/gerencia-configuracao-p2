@@ -4,6 +4,7 @@ import com.cefet.vocealuga.entities.enums.StatusReserva;
 import com.cefet.vocealuga.entities.enums.TipoReserva;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -31,8 +32,9 @@ public class Reserva {
     @ManyToOne
     @JoinColumn(name = "veiculo_id")
     private Veiculo veiculo;
+    private BigDecimal valorTotal;
 
-    public Reserva(Long id, TipoReserva categoria, StatusReserva status, LocalDate dataReserva, LocalDate dataVencimento, Filial localRetirada, Usuario usuario, Veiculo  veiculo, Motorista motorista) {
+    public Reserva(Long id, TipoReserva categoria, StatusReserva status, LocalDate dataReserva, LocalDate dataVencimento, Filial localRetirada, Usuario usuario, Veiculo  veiculo, Motorista motorista, BigDecimal valorTotal) {
         this.id = id;
         this.categoria = categoria;
         this.status = status;
@@ -42,6 +44,7 @@ public class Reserva {
         this.usuario = usuario;
         this.veiculo = veiculo;
         this.motorista = motorista;
+        this.valorTotal = valorTotal;
     }
 
     public Reserva() {
@@ -53,6 +56,14 @@ public class Reserva {
 
     public void setMotorista(Motorista motorista) {
         this.motorista = motorista;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
     }
 
     public Long getId() {

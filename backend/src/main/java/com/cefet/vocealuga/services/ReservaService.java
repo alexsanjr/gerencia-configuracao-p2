@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.temporal.ChronoUnit;
+
 @Service
 public class ReservaService {
 
@@ -34,6 +37,7 @@ public class ReservaService {
 
     @Autowired
     private MotoristaRepository motoristaRepository;
+
 
     @Transactional(readOnly = true)
     public ReservaDTO findById(Long id) {
@@ -87,15 +91,34 @@ public class ReservaService {
         Reserva entity = convertToEntity(dto);
 
         // Definir status inicial da reserva
-        entity.setStatus(StatusReserva.PENDENTE);
+        entity.setStatus(StatusReserva.AGUARDANDO_PAGAMENTO);
 
-        // Associar o motorista explicitamente
-        entity.setMotorista(motorista);
 
         // Salvar a reserva
         entity = repository.save(entity);
 
         return convertToDTO(entity);
+    }
+
+    @Transactional
+    public void confirmarPagamentoReserva(Long reservaId) {
+        Reserva reserva = repository.findById(reservaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reserva não encontrada"));
+
+        if (reserva.getStatus() != StatusReserva.AGUARDANDO_PAGAMENTO) {
+            throw new RuntimeException("Reserva não está aguardando pagamento");
+        }
+
+
+        reserva.setStatus(StatusReserva.PENDENTE);
+
+        if (reserva.getVeiculo() != null) {
+            Veiculo veiculo = reserva.getVeiculo();
+            veiculo.setStatusVeiculo(StatusVeiculo.RESERVADO);
+            veiculoRepository.save(veiculo);
+        }
+
+        repository.save(reserva);
     }
 
     @Transactional
@@ -209,6 +232,7 @@ public class ReservaService {
         dto.setUsuarioId(entity.getUsuario() != null ? entity.getUsuario().getId() : null);
         dto.setVeiculoId(entity.getVeiculo() != null ? entity.getVeiculo().getId() : null);
         dto.setMotoristaId(entity.getMotorista() != null ? entity.getMotorista().getId() : null);
+        dto.setValorTotal(entity.getValorTotal());
         return dto;
     }
 
@@ -230,11 +254,23 @@ public class ReservaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Local de retirada não encontrado"));
         entity.setLocalRetirada(filial);
 
-        // Buscar o veículo pelo ID
+        // Buscar o veículo pelo ID e calcular valor total
         if (dto.getVeiculoId() != null) {
             Veiculo veiculo = veiculoRepository.findById(dto.getVeiculoId())
                     .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado"));
             entity.setVeiculo(veiculo);
+
+            long dias = ChronoUnit.DAYS.between(dto.getDataReserva(), dto.getDataVencimento());
+
+            if (dias <= 0) {
+                dias = 1;
+            }
+
+            BigDecimal valorDiaria = BigDecimal.valueOf(veiculo.getValorDiaria());
+            BigDecimal quantidadeDias = BigDecimal.valueOf(dias);
+            BigDecimal valorTotal = valorDiaria.multiply(quantidadeDias);
+
+            entity.setValorTotal(valorTotal);
         }
 
         // Buscar o motorista pelo ID

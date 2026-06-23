@@ -6,6 +6,7 @@ import com.cefet.vocealuga.dtos.RegisterRequest;
 import com.cefet.vocealuga.dtos.enums.TipoRegister;
 import com.cefet.vocealuga.entities.Cliente;
 import com.cefet.vocealuga.repositories.UsuarioRepository;
+import com.cefet.vocealuga.services.SmtpEmailService;
 import com.cefet.vocealuga.services.JwtTokenService;
 import com.cefet.vocealuga.services.UsuarioService;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,14 +28,20 @@ class UsuarioServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
+    private JwtTokenService jwtTokenService;
+    @Mock
+    private SmtpEmailService smtpEmailService;
+    @Mock
     private UsuarioService usuarioService;
 
     @BeforeEach
     void setUp() {
         usuarioRepository = mock(UsuarioRepository.class);
         passwordEncoder = mock(PasswordEncoder.class);
-        JwtTokenService jwtTokenService = mock(JwtTokenService.class);
-        usuarioService = new UsuarioService(usuarioRepository, passwordEncoder, jwtTokenService);
+        jwtTokenService = mock(JwtTokenService.class);
+        smtpEmailService = mock(SmtpEmailService.class);
+
+        usuarioService = new UsuarioService(usuarioRepository, passwordEncoder, jwtTokenService, smtpEmailService);
     }
 
     @Test
@@ -45,8 +52,11 @@ class UsuarioServiceTest {
         );
 
         when(usuarioRepository.findByEmail("robson@gmail.com")).thenReturn(null);
+        when(usuarioRepository.findByDocumento("12345678954")).thenReturn(null);
         when(passwordEncoder.encode(any())).thenReturn("senhaCodificada");
         when(usuarioRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        doNothing().when(smtpEmailService).sendWelcomeEmail(anyString(), anyString());
 
         ResponseEntity<?> response = usuarioService.registerUser(request);
 
@@ -54,6 +64,28 @@ class UsuarioServiceTest {
         Map<String, Object> body = (Map<String, Object>) response.getBody();
         assertEquals("Usuário CLIENTE criado com sucesso!", body.get("mensagem"));
         assertEquals("robson@gmail.com", body.get("email"));
+    }
+
+    @Test
+    void deveAutenticarUsuarioComCredenciaisValidas() {
+        LoginRequest loginRequest = new LoginRequest("robson@gmail.com", "Senha123!");
+
+        Cliente usuario = new Cliente();
+        usuario.setEmail("robson@gmail.com");
+        usuario.setPassword("senhaCodificada");
+        usuario.setId(1L);
+
+        when(usuarioRepository.findByEmail("robson@gmail.com")).thenReturn(usuario);
+        when(passwordEncoder.matches("Senha123!", "senhaCodificada")).thenReturn(true);
+        when(jwtTokenService.generateToken(anyString(), anyString(), anyLong())).thenReturn("tokenFake");
+
+        UsuarioService usuarioServiceReal = new UsuarioService(usuarioRepository, passwordEncoder, jwtTokenService, smtpEmailService);
+
+        AuthResponse response = usuarioServiceReal.authenticateUser(loginRequest);
+
+        assertNotNull(response.getToken());
+        assertEquals("ROLE_CLIENTE", response.getTipo());
+        assertEquals("Login realizado com sucesso", response.getMensagem());
     }
 
     @Test
@@ -108,7 +140,7 @@ class UsuarioServiceTest {
     void naoDeveRegistrarUsuarioComTelefoneInvalido() {
         RegisterRequest request = new RegisterRequest(
                 "Robson", "12345678954", LocalDate.of(1990, 1, 1),
-                "robson@gmail.com", "123abc", "123abc", TipoRegister.CLIENTE // telefone inválido
+                "robson@gmail.com", "123abc", "123abc", TipoRegister.CLIENTE
         );
 
         when(usuarioRepository.findByEmail("robson@gmail.com")).thenReturn(null);
@@ -165,33 +197,8 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void deveAutenticarUsuarioComCredenciaisValidas() {
-        LoginRequest loginRequest = new LoginRequest("robson@gmail.com", "Senha123!");
-
-        Cliente usuario = new Cliente();
-        usuario.setEmail("robson@gmail.com");
-        usuario.setPassword("senhaCodificada");
-        usuario.setId(1L); // Adicionando um ID ao usuário para passar ao generateToken
-
-        when(usuarioRepository.findByEmail("robson@gmail.com")).thenReturn(usuario);
-        when(passwordEncoder.matches("Senha123!", "senhaCodificada")).thenReturn(true);
-
-        JwtTokenService jwtTokenService = mock(JwtTokenService.class);
-        when(jwtTokenService.generateToken(anyString(), anyString(), anyLong())).thenReturn("tokenFake");
-
-        UsuarioService usuarioServiceReal = new UsuarioService(usuarioRepository, passwordEncoder, jwtTokenService);
-
-        AuthResponse response = usuarioServiceReal.authenticateUser(loginRequest);
-
-        assertNotNull(response.getToken());
-        assertEquals("ROLE_CLIENTE", response.getTipo());
-        assertEquals("Login realizado com sucesso", response.getMensagem());
-    }
-
-    @Test
     void naoDeveAutenticarUsuarioComCredenciaisInvalidas() {
         LoginRequest loginRequest = new LoginRequest("usuario@invalido.com", "SenhaErrada");
-
 
         when(usuarioRepository.findByEmail("usuario@invalido.com")).thenReturn(null);
 

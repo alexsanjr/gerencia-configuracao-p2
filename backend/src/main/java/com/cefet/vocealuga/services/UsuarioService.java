@@ -23,13 +23,14 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenService jwtTokenService;
 
-    private FilialRepository filialRepository;
+    private final SmtpEmailService emailService;
 
     public UsuarioService(UsuarioRepository repository,
-                          PasswordEncoder passwordEncoder, JwtTokenService tokenService) {
+                          PasswordEncoder passwordEncoder, JwtTokenService tokenService, SmtpEmailService emailService) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenService = tokenService;
+        this.emailService = emailService;
     }
 
     public ResponseEntity<?> registerUser(RegisterRequest request) {
@@ -71,6 +72,8 @@ public class UsuarioService {
 
 
         saveUser(novoUsuario);
+
+        emailService.sendWelcomeEmail(novoUsuario.getEmail(), novoUsuario.getNome());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
                 "mensagem", "Usuário " + request.getTipo() + " criado com sucesso!",

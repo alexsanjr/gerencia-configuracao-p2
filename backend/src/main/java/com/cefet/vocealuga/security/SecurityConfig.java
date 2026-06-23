@@ -50,7 +50,7 @@ public class SecurityConfig {
                         })
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/register", "/h2-console/**", "/veiculos/**").permitAll()
+                        .requestMatchers("/auth/**", "/register", "/h2-console/**", "/veiculos/**", "/pagamento/confirmar/**", "/test-email").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

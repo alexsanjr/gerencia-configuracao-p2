@@ -3,6 +3,7 @@ package com.cefet.vocealuga.dtos;
 import com.cefet.vocealuga.entities.enums.StatusReserva;
 import com.cefet.vocealuga.entities.enums.TipoReserva;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class ReservaDTO {
@@ -16,7 +17,15 @@ public class ReservaDTO {
     private LocalDate dataVencimento;
     private Long localRetiradaId;
     private Long VeiculoId;
+    private BigDecimal valorTotal;
 
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 
     public Long getMotoristaId() {
         return motoristaId;
