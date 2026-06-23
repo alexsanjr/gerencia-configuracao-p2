@@ -1,6 +1,3 @@
-# syntax=docker/dockerfile:1
-
-# Compila a aplicacao com a mesma versao de Java definida no pom.xml.
 FROM eclipse-temurin:21-jdk-alpine AS build
 WORKDIR /workspace
 
