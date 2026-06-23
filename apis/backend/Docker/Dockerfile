@@ -9,7 +9,8 @@ COPY mvnw pom.xml ./
 RUN chmod +x mvnw && ./mvnw -B dependency:go-offline
 
 COPY src/ src/
-RUN ./mvnw -B clean package -DskipTests
+# application-test.properties veio do projeto original em ISO-8859-1.
+RUN ./mvnw -B clean package -DskipTests -Dproject.build.sourceEncoding=ISO-8859-1
 
 # Imagem final minima, contendo somente o artefato executavel.
 FROM eclipse-temurin:21-jre-alpine
