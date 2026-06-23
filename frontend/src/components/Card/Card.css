@@ -1,0 +1,42 @@
+.feature-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1 1 300px;              /* permite ajuste automático e quebra */
+  max-width: 100%;
+}
+
+.feature-icon {
+  background-color: #1c3c69;
+  border-radius: 50%;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+}
+
+.feature-icon img {
+  object-fit: contain;
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  max-width: 60%;
+}
+
+.feature-title {
+  font-weight: bold;
+  color: black;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.feature-description {
+  font-size: 0.85rem;
+  margin: 0.3rem 0 0 0;
+  color: #333;
+}

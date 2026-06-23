@@ -1,0 +1,81 @@
+@use "../../../../src/styles/variaveis.scss" as *;
+
+.header-admin {
+    background-color: $white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    margin: 1rem 0rem 0rem 0rem;
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1.5rem;
+
+        .left-section {
+            display: flex;
+            align-items: center;
+
+            .menu-button {
+                background: none;
+                border: none;
+                color: $gray-700;
+                font-size: 1.25rem;
+                cursor: pointer;
+                padding: 0.5rem;
+                margin-right: 1rem;
+
+                @media (min-width: 768px) {
+                    display: none;
+                }
+            }
+
+            .title {
+                font-size: 1.25rem;
+                font-weight: 600;
+            }
+        }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+
+            .notification {
+                position: relative;
+                color: $gray-700;
+                cursor: pointer;
+
+                .notification-badge {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 0.5rem;
+                    height: 0.5rem;
+                    border-radius: 50%;
+                    background-color: $accent;
+                }
+            }
+
+            .user {
+                display: flex;
+                align-items: center;
+
+                img {
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 50%;
+                }
+
+                .userName {
+                    margin-left: 0.5rem;
+                    font-size: 0.875rem;
+
+                    @media (max-width: 768px) {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

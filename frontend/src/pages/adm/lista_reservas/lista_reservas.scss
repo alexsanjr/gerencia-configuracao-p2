@@ -1,0 +1,151 @@
+@use "../../../styles/variaveis.scss" as *;
+
+.container-table-frota {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+
+    .table {
+        padding-inline: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+
+        .arredondar {
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+
+            thead {
+                border-radius: 1rem;
+
+                tr {
+                    th {
+                        background-color: $gray-200;
+                        padding: 1rem;
+                        text-align: center;
+                        font-weight: 600;
+
+                        &:first-child {
+                            border-top-left-radius: 1rem;
+                            border-bottom-left-radius: 1rem;
+                        }
+                        &:last-child {
+                            border-top-right-radius: 1rem;
+                            border-bottom-right-radius: 1rem;
+                        }
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    &:hover {
+                        td {
+                            background-color: rgba(0, 0, 0, 0.03);
+                        }
+                    }
+
+                    td {
+                        padding: 0.5rem;
+                        border-bottom: 1px solid $gray-200;
+                        font-size: 0.8rem;
+                        text-align: center;
+
+                        &:first-child {
+                            border-top-left-radius: 1rem;
+                            border-bottom-left-radius: 1rem;
+                        }
+                        &:last-child {
+                            border-top-right-radius: 1rem;
+                            border-bottom-right-radius: 1rem;
+                        }
+
+                        &.status {
+                            display: flex;
+                            justify-content: center;
+
+                            span {
+                                padding: 0.7rem 1rem;
+                                font-size: 0.7rem;
+                                border-radius: 1rem;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                padding-left: 1.5rem;
+                                position: relative;
+                                font-weight: 700;
+
+                                &::before {
+                                    content: "";
+                                    position: absolute;
+                                    width: 0.5rem;
+                                    height: 0.5rem;
+                                    left: 0.5rem;
+                                    border-radius: 50%;
+                                }
+
+                                &.status-PENDENTE {
+                                    background-color: #fff3e0;
+                                    color: #ff9800;
+                                    &::before {
+                                        background-color: #ff9800;
+                                    }
+                                }
+                                &.status-AGENDADO {
+                                    background-color: #e3f2fd;
+                                    color: #1976d2;
+                                    &::before {
+                                        background-color: #1976d2;
+                                    }
+                                }
+                                &.status-EM_ANDAMENTO {
+                                    background-color: #f2eaff;
+                                    color: #6c47ff;
+                                    &::before {
+                                        background-color: #6c47ff;
+                                    }
+                                }
+                                &.status-ENCERRADO {
+                                    background-color: #e8f5e9;
+                                    color: #4caf50;
+                                    &::before {
+                                        background-color: #4caf50;
+                                    }
+                                }
+                                &.status-CANCELADO {
+                                    background-color: #ffe7e2;
+                                    color: #ff6041;
+                                    &::before {
+                                        background-color: #ff6041;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.edit {
+                            div {
+                                display: flex;
+                                justify-content: center;
+                                gap: 0.5rem;
+
+                                button {
+                                    background-color: transparent;
+                                    border: none;
+                                    cursor: pointer;
+
+                                    &.trash {
+                                        color: #ff6041;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

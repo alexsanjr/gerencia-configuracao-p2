@@ -1,0 +1,124 @@
+@use "../../../styles/variaveis.scss" as *;
+@import "../../../styles/mixins";
+
+.criar-veiculo {
+    @include flex-center;
+
+    .form-criar-veiculo {
+        background-color: #fff;
+        width: 100%;
+        max-width: 600px;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        form {
+            .grid {
+                display: flex;
+                gap: 1.2rem;
+                justify-content: center;
+                flex-wrap: wrap;
+                align-items: stretch; // para colunas terem mesma altura
+            }
+
+            .column {
+                flex: 1 1 280px;
+                max-width: 300px;
+                display: flex;
+                flex-direction: column;
+                gap: 0.2rem;
+            }
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.4rem;
+                width: 100%;
+                min-width: 0;
+
+                label {
+                    width: 100%;
+                    min-width: 300px;
+                    min-height: 0.1em;
+                    line-height: 1.3em;
+                    font-size: 1rem;
+                    font-weight: 500;
+                    color: #333;
+                    margin-left: 0.1rem;
+                    margin-bottom: 0.2rem;
+                    display: block;
+                }
+
+                .input-select,
+                input[type="text"],
+                input[type="number"] {
+                    width: 100%;
+                    min-height: 44px;
+                    padding: 0.7rem 1rem;
+                    border: 1px solid #d1d5db;
+                    border-radius: 0.5rem;
+                    background: #f9f9f9;
+                    color: #222;
+                    font-size: 1rem;
+                    font-family: inherit;
+                    transition:
+                        border-color 0.2s,
+                        background 0.2s;
+                    appearance: none;
+                    outline: none;
+                    box-sizing: border-box;
+                    line-height: 1.2;
+                    /* Remove setas do select no Chrome */
+                    &::-ms-expand {
+                        display: none;
+                    }
+                }
+
+                .input-select:focus,
+                input[type="text"]:focus,
+                input[type="number"]:focus {
+                    border-color: $accent;
+                    background: #fff;
+                }
+
+                /* Remove setas do select no Chrome */
+                .input-select::-webkit-inner-spin-button,
+                .input-select::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+
+                .input-select option[disabled],
+                .input-select option[value=""] {
+                    color: #aaa;
+                }
+            }
+
+            button {
+                background-color: $accent;
+                padding: 0.6rem 2rem;
+                color: #fff;
+                border: none;
+                border-radius: 0.5rem;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: $accentHover;
+                }
+            }
+
+            .form-group.full-width {
+                grid-column: 1 / -1;
+                margin-top: 1rem;
+            }
+
+            .form-group.full-width label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 600;
+                color: #333;
+            }
+        }
+    }
+}

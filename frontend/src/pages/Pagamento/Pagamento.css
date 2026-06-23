@@ -1,0 +1,203 @@
+.pagamento-container {
+  min-height: 100dvh;
+  width: 100vw;
+  background: #e9edf3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.pagamento-box {
+  background: #fff;
+  padding: 3rem 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.pagamento-box h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #16335b;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.pagamento-desc {
+  color: #444;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.12rem;
+  background: #f5f7fa;
+  border-radius: 0.7rem;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.2s, background 0.2s, box-shadow 0.2s;
+  position: relative;
+  font-weight: 500;
+  box-shadow: 0 2px 8px #18386111;
+}
+
+.payment-option input[type="radio"] {
+  accent-color: #9F67DD;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: 0;
+}
+
+.payment-option span {
+  flex: 1;
+  color: #183861;
+  letter-spacing: 0.2px;
+}
+
+.payment-option:hover,
+.payment-option:focus-within {
+  border: 2px solid #9F67DD;
+  background: #e6f0fa;
+  box-shadow: 0 4px 16px #9F67DD22;
+}
+
+.payment-option input[type="radio"]:checked + span {
+  /* color: #fff; */
+}
+
+/* Efeito visual para opção selecionada */
+.payment-option input[type="radio"]:checked ~ span {
+  /* color: #fff; */
+}
+
+.payment-option input[type="radio"]:checked ~ span,
+.payment-option input[type="radio"]:checked ~ .payment-check {
+  /* color: #fff; */
+}
+
+.payment-option input[type="radio"]:checked ~ span {
+  /* background: linear-gradient(90deg, #3c7cad 60%, #16335b 100%); */
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.7rem;
+  margin-left: -0.7rem;
+  margin-right: -0.7rem;
+  transition: background 0.2s;
+}
+
+.payment-fields {
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #16335b;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  background-color: white;
+  font-size: 1rem;
+  box-sizing: border-box;
+  color: #222;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #9F67DD;
+  box-shadow: 0 0 0 2px rgba(159, 103, 221, 0.15);
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.pix-info {
+  background: #e6f0fa;
+  color: #16335b;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.98rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.pagamento-button {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(90deg, #9F67DD 60%, #16335b 100%);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1.08rem;
+  margin-top: 0.5rem;
+  transition: background 0.3s;
+}
+
+.pagamento-button:hover {
+  background: #fff;
+  color: #16335b;
+  border: 2px solid #16335b;
+}
+
+.loader {
+  display: inline-block;
+  width: 1.3em;
+  height: 1.3em;
+  border: 3px solid #9F67DD;
+  border-radius: 50%;
+  border-top: 3px solid #fff;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 600px) {
+  .pagamento-box {
+    padding: 2rem 1rem;
+    max-width: 98vw;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .payment-option {
+    padding: 0.8rem 0.7rem;
+    font-size: 1rem;
+  }
+}

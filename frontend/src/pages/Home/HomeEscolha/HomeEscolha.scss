@@ -1,0 +1,85 @@
+@use "../../../styles/variaveis.scss" as *;
+@import "../../../styles/mixins";
+
+.escolhas {
+    margin-top: 7rem;
+    margin-bottom: 7rem;
+
+    .title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+
+        strong {
+            font-size: 2.5rem;
+            font-weight: 900;
+
+            span {
+                color: $accent;
+            }
+        }
+
+        p {
+            max-width: 50rem;
+            font-size: 1.3rem;
+            color: $gray-700;
+            line-height: 2rem;
+        }
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 3rem;
+
+        li {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+
+            .icon {
+                display: flex;
+
+                i {
+                    width: 4rem;
+                    height: 4rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 2rem;
+                    border-radius: 50%;
+
+                    &.reserva {
+                        background-color: #e1cfff;
+                        color: $accent;
+                    }
+                    &.protecao {
+                        background-color: #e1cfff;
+                        color: $accent;
+                    }
+                    &.atendimento {
+                        background-color: #e1cfff;
+                        color: $accent;
+                    }
+                }
+            }
+
+            strong {
+                margin-top: 1.3rem;
+                font-weight: 700;
+                font-size: 1.5rem;
+            }
+
+            p {
+                margin-top: 1rem;
+                font-weight: 300;
+                line-height: 1.4rem;
+                color: $gray-700;
+            }
+        }
+    }
+}

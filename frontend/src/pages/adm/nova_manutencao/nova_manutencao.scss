@@ -1,0 +1,148 @@
+@use "../../../styles/variaveis.scss" as *;
+
+/* Container principal: ocupa toda a tela e centraliza conteúdo */
+.criar-veiculo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    width: 100%;
+    min-height: calc(100vh - 80px); /* ajuste conforme navbar/topo */
+    background: #f0f2f5;
+}
+
+/* Box do formulário: centralizado e com sombra mais suave */
+.form-criar-veiculo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    padding: 2.5rem 2rem 2rem;
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+/* Lista de veículos: centralizada e com rolagem clean */
+.veiculos-lista-manutencao {
+    width: 100%;
+    max-width: 600px;
+    max-height: 260px;
+    padding: 1.2rem 1rem;
+    margin-bottom: 2rem;
+    background: #f7f7fa;
+    border-radius: 0.7rem;
+    overflow-y: auto;
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: $accent;
+        font-weight: 600;
+        font-size: 1.05rem;
+    }
+}
+
+.veiculos-lista-manutencao ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+}
+
+.veiculos-lista-manutencao li {
+    margin-bottom: 0.7rem;
+}
+
+.veiculos-lista-manutencao li label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.6rem 0.8rem;
+    background: #fff;
+    border-radius: 0.4rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    font-size: 1rem;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: normal;
+
+    &:hover {
+        background: #eef1f8;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+}
+
+/* Grid interno: garante colunas alinhadas ao centro */
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+/* Campos do formulário */
+.form-group {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: $accent;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1px solid $gray-300;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+        outline: none;
+        border-color: $accent;
+    }
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Botão principal */
+button[type="submit"] {
+    margin-top: 1.5rem;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: $accent;
+    color: #fff;
+    border: none;
+    border-radius: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: $accentHover;
+        transform: translateY(-1px);
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+    }
+}

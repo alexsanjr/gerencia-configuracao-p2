@@ -1,0 +1,105 @@
+.container-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #16335b;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  z-index: 1000;
+  overflow: hidden; /* <- evita que filhos ultrapassem visualmente */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  white-space: nowrap;
+}
+
+.logo img {
+  height: 2rem;
+  width: auto;
+}
+
+.navegacao {
+  display: flex;
+  align-items: center;
+}
+
+nav {
+  height: 100%;
+}
+
+ul.menus {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-width: 100%; /* <-- essencial */
+  overflow: hidden; /* <-- evita estouro visual */
+  box-sizing: border-box;
+}
+
+
+ul.menus li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+
+ul.menus li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  height: 100%;
+    overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+
+}
+
+ul.menus li a:hover {
+  color: #b3d1ff;
+}
+
+ul.menus li figure {
+  margin: 0;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+ul.menus li figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Botão de login */
+.Login a {
+  background-color: #5081a8;
+  padding: 0.4rem 1rem;
+  border-radius: 0.5rem;
+  color: white;
+  font-weight: bold;
+}

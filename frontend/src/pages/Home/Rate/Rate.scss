@@ -1,0 +1,118 @@
+@use "../../../styles/variaveis.scss" as *;
+@import "../../../styles/mixins";
+
+.container-rate {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+
+    .container-deg {
+        @include degrade;
+        padding: 2rem;
+        border-radius: 1rem;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+
+        .desc {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+
+            strong {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #fff;
+            }
+            p {
+                margin-top: 1.5rem;
+                color: #fff;
+                font-size: 1.3rem;
+                line-height: 1.7rem;
+            }
+
+            a {
+                margin-top: 1.5rem;
+                background-color: #fff;
+                text-decoration: none;
+                padding: 0.8rem 3rem;
+                border-radius: 1rem;
+                display: flex;
+                align-items: center;
+                font-weight: 900;
+                color: $accent;
+                transition: 0.2s ease-in-out;
+
+                i {
+                    display: flex;
+                    padding-left: 0.5rem;
+                    font-size: 1.5rem;
+                }
+
+                &:hover {
+                    background-color: $accent;
+                    color: #fff;
+                }
+            }
+        }
+
+        .container-rate {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .rate {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                span {
+                    border-radius: 3rem;
+                }
+
+                &__um,
+                &__dois {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                &__um {
+                    padding: 4.5rem;
+                    background-color: rgba(255, 255, 255, 0.3);
+                    z-index: 1;
+                }
+                &__dois {
+                    padding: 4rem;
+                    background-color: rgba(255, 255, 255, 0.6);
+                    z-index: 2;
+                    margin-left: 1.5rem;
+                    margin-right: 1.5rem;
+                }
+                &__tres {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 1.5rem;
+                    background-color: #fff;
+                    z-index: 3;
+                    margin-left: 1rem;
+                    margin-right: 1rem;
+
+                    span {
+                        font-weight: 900;
+                        color: $accent;
+                        font-size: 2rem;
+                    }
+
+                    .stars {
+                        color: #ecdd3c;
+                        font-size: 1.2rem;
+                    }
+                }
+            }
+        }
+    }
+}

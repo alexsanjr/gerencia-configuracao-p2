@@ -1,0 +1,55 @@
+@mixin card-hover {
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba($accent, 0.3);
+    }
+}
+
+@mixin degrade {
+    background: linear-gradient(135deg, #a645e2 0%, #88d3ce 100%);
+}
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin sidebar-item {
+    padding: 0.75rem 1rem;
+
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 0.3rem;
+    color: $dark;
+    font-size: 0.9rem;
+
+    .icon {
+        color: $gray-500;
+        transition: 0.2s ease;
+    }
+
+    &:hover {
+        background-color: rgba($accent, 0.1);
+        // border-left: 3px solid $accent;
+        color: $accent;
+
+        .icon {
+            color: $accent;
+        }
+    }
+
+    &.active {
+        background-color: rgba($accent, 0.2);
+        // border-left: 3px solid $accent;
+
+        color: $accent;
+
+        .icon {
+            color: $accent;
+        }
+    }
+}

@@ -1,0 +1,132 @@
+@use "../../../styles/variaveis.scss" as *;
+@import "../../../styles/mixins";
+
+.criar-veiculo {
+    @include flex-center;
+
+    .form-criar-veiculo {
+        background-color: #fff;
+        width: 100%;
+        max-width: 600px;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        form {
+            .grid {
+                display: flex;
+                gap: 1.2rem;
+                justify-content: center;
+                flex-wrap: wrap;
+                align-items: stretch; // para colunas terem mesma altura
+            }
+
+            .column {
+                flex: 1 1 280px;
+                max-width: 300px;
+                display: flex;
+                flex-direction: column;
+                gap: 0.2rem;
+            }
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.4rem;
+                width: 100%;
+                min-width: 0;
+
+                label {
+                    width: 100%;
+                    min-width: 300px;
+                    min-height: 0.1em;
+                    line-height: 1.3em;
+                    font-size: 1rem;
+                    font-weight: 500;
+                    color: #333;
+                    margin-left: 0.1rem;
+                    margin-bottom: 0.2rem;
+                    display: block;
+                }
+
+                .input-select,
+                input[type="text"],
+                input[type="number"] {
+                    width: 100%;
+                    min-height: 44px;
+                    padding: 0.7rem 1rem;
+                    border: 1px solid #d1d5db;
+                    border-radius: 0.5rem;
+                    background: #f9f9f9;
+                    color: #222;
+                    font-size: 1rem;
+                    font-family: inherit;
+                    transition:
+                        border-color 0.2s,
+                        background 0.2s,
+                        box-shadow 0.2s;
+                    appearance: none;
+                    outline: none;
+                    box-sizing: border-box;
+                    line-height: 1.2;
+                    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+                }
+
+                .input-select {
+                    background-image: url('data:image/svg+xml;utf8,<svg fill="%23999" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7.293 7.293a1 1 0 011.414 0L10 8.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z"/></svg>');
+                    background-repeat: no-repeat;
+                    background-position: right 1rem center;
+                    background-size: 1.2em;
+                    padding-right: 2.5rem;
+                    cursor: pointer;
+                }
+                .input-select::-ms-expand {
+                    display: none;
+                }
+                .input-select::-webkit-inner-spin-button,
+                .input-select::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+
+                .input-select:focus,
+                input[type="text"]:focus,
+                input[type="number"]:focus {
+                    border-color: $accent;
+                    background: #fff;
+                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+                }
+
+                .input-select:hover,
+                input[type="text"]:hover,
+                input[type="number"]:hover {
+                    border-color: #bdbdbd;
+                    background: #f3f3f3;
+                }
+
+                .input-select option[disabled],
+                .input-select option[value=""] {
+                    color: #aaa;
+                }
+            }
+
+            button {
+                background-color: $accent;
+                padding: 0.6rem 2rem;
+                color: #fff;
+                border: none;
+                border-radius: 0.5rem;
+                margin-top: 1.5rem;
+                font-size: 1.1rem;
+                font-weight: 600;
+                letter-spacing: 0.02em;
+                transition: background 0.2s;
+
+                &:hover {
+                    background-color: $accentHover;
+                }
+            }
+        }
+    }
+}

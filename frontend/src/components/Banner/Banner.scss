@@ -1,0 +1,138 @@
+@use "../../styles/variaveis.scss" as *;
+@use "../../styles/mixins" as *;
+
+.container-banner {
+    width: 100%;
+    height: 60vh;
+
+    @include degrade;
+    @include flex-center;
+
+    .container-header {
+        width: 100%;
+        height: 100%;
+        max-width: 1220px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 1rem;
+
+        .text {
+            .text-animation {
+                font-size: 3.7rem;
+                font-weight: 900;
+
+                .text-an {
+                    color: #fff;
+                    line-height: 4.5rem;
+                    padding-bottom: 1rem;
+                }
+            }
+
+            > p {
+                color: #fff;
+                line-height: 2rem;
+                font-size: 1.5rem;
+                transform: translateY(50%);
+                opacity: 0;
+                animation: textEffect 1s forwards;
+                animation-delay: 3s;
+            }
+
+            .btns {
+                visibility: hidden;
+                opacity: 0;
+                margin-top: 1rem;
+                animation: textEffect 1s forwards;
+                animation-delay: 3.5s;
+
+                a {
+                    text-decoration: none;
+
+                    button {
+                        background-color: #fff;
+                        padding: 0.8rem 1.5rem;
+                        border: none;
+                        border-radius: 2rem;
+                        color: $accent;
+                        font-weight: 700;
+                        font-size: 1rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        cursor: pointer;
+
+                        i {
+                            display: flex;
+                            font-size: 1.3rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        .vehicle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            position: relative;
+
+            figure {
+                max-width: 40rem;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                figcaption {
+                    position: absolute;
+                    bottom: 0;
+                    padding: 0.8rem;
+                    background-color: #fff;
+                    border-radius: 1rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    i {
+                        font-size: 1.5rem;
+                        width: 2.5rem;
+                        height: 2.5rem;
+                        background-color: #cab4ed;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 100%;
+                        color: $accent;
+                    }
+
+                    .text-description {
+                        span {
+                            font-size: 0.8rem;
+                            color: #747474;
+                        }
+                        p {
+                            padding-top: 0.2rem;
+                            font-size: 0.8rem;
+                            font-weight: 900;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes textEffect {
+    from {
+        visibility: hidden;
+        transform: translateY(50%);
+        opacity: 0;
+    }
+    to {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

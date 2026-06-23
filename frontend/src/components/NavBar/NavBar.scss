@@ -1,0 +1,89 @@
+@use "../../styles/variaveis.scss" as *;
+
+.container-navbar {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    height: 4rem;
+
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+
+    .limit {
+        width: 100%;
+        max-width: 1220px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .logo {
+            img {
+                height: 2.2rem;
+            }
+        }
+
+        .navegacao {
+            ul {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
+                .menu-item {
+                    border-radius: 0.5rem;
+                    transition: all 0.2s ease-in-out;
+
+                    a {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        padding: 0.7rem 1rem;
+                        font-size: 0.8rem;
+                        text-decoration: none;
+                        color: #000;
+                        font-weight: 600;
+
+                        svg {
+                            width: 1.2rem;
+                            height: 1.2rem;
+                        }
+                    }
+
+                    &.active {
+                        background-color: rgba($accent, 0.1);
+                        a {
+                            color: $accent;
+                        }
+                    }
+
+                    &:hover:not(.active) {
+                        background-color: rgba($gray-200, 0.8);
+                    }
+
+                    &.logout, &.login {
+                        a {
+                            background-color: $accent;
+                            color: #fff;
+                            border-radius: 0.5rem;
+                            transition: 0.2s ease-in-out;
+                            padding: 0.7rem 1.5rem;
+
+                            svg {
+                                color: #fff;
+                            }
+
+                            &:hover {
+                                background-color: $accentHover;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
