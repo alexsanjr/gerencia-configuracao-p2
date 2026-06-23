@@ -1,0 +1,5 @@
+postgresql_server_name = "server-name"
+
+allowed_ip_cidrs = ["ip-publico/32"]
+
+postgresql_administrator_password = "uma-senha-forte"
