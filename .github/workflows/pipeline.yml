@@ -48,8 +48,9 @@ jobs:
 
       - name: Iniciar SonarQube
         run: |
-          docker rm -f voce-aluga-sonarqube || true
-          docker run -d --name voce-aluga-sonarqube --restart no -p 9000:9000 sonarqube:community
+          if ! docker ps --format '{{.Names}}' | grep -qx sonarqube; then
+            docker start sonarqube 2>/dev/null || docker run -d --name sonarqube --restart unless-stopped -p 9000:9000 sonarqube:community
+          fi
           until curl --fail --silent "$SONAR_HOST_URL/api/system/status" | grep -q 'UP'; do sleep 10; done
 
       - name: Analisar Quality Gate
