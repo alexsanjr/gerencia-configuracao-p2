@@ -8,4 +8,6 @@ terraform/*.tfvars
 terraform/tfplan*
 kubernetes/backend/backend-secret.yaml
 kubernetes/database/postgresql-secret.yaml
+ansible/inventory/homologacao.ini
+ansible/group_vars/all.yml
 kubernetes/database/postgresql-secret.yaml

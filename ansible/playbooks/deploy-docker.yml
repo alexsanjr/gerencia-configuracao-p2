@@ -1,0 +1,44 @@
+---
+- name: Publicar frontend no host Docker
+  hosts: frontend
+  become: true
+  tasks:
+    - name: Instalar Docker
+      ansible.builtin.apt:
+        name: docker.io
+        state: present
+        update_cache: true
+
+    - name: Habilitar servico Docker
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Autenticar no Docker Hub privado
+      ansible.builtin.command:
+        cmd: docker login --username {{ lookup('env', 'DOCKER_HUB_USERNAME') }} --password-stdin
+        stdin: "{{ lookup('env', 'DOCKER_HUB_TOKEN') }}"
+      no_log: true
+      changed_when: false
+
+    - name: Baixar imagem do frontend
+      ansible.builtin.command:
+        cmd: docker pull {{ frontend_image | default('alexsanjr/voce-aluga-frontend:latest') }}
+      changed_when: true
+
+    - name: Remover container anterior
+      ansible.builtin.command:
+        cmd: docker rm --force {{ frontend_container_name | default('voce-aluga-frontend') }}
+      register: remove_container
+      failed_when: remove_container.rc not in [0, 1]
+      changed_when: remove_container.rc == 0
+
+    - name: Iniciar container do frontend
+      ansible.builtin.command:
+        cmd: >-
+          docker run --detach --name {{ frontend_container_name | default('voce-aluga-frontend') }}
+          --restart unless-stopped
+          --publish {{ frontend_host_port | default(80) }}:80
+          {{ frontend_image | default('alexsanjr/voce-aluga-frontend:latest') }}
+      changed_when: true

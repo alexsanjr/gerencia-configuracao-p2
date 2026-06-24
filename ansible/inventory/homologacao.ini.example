@@ -1,0 +1,2 @@
+[frontend]
+vm-voce-aluga-frontend ansible_host=IP_PUBLICO_DA_VM ansible_user=azureuser

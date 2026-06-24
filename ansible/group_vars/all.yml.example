@@ -1,0 +1,7 @@
+frontend_image: alexsanjr/voce-aluga-frontend:latest
+frontend_container_name: voce-aluga-frontend
+frontend_host_port: 80
+
+# Defina estas variaveis no terminal:
+# export DOCKER_HUB_USERNAME="seu-usuario"
+# export DOCKER_HUB_TOKEN="seu-token"
