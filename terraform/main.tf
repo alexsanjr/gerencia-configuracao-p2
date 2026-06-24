@@ -30,3 +30,18 @@ module "kubernetes" {
 
   tags = var.tags
 }
+
+module "compute" {
+  source = "./modules/compute"
+
+  resource_group_name    = azurerm_resource_group.voce_aluga.name
+  location               = azurerm_resource_group.voce_aluga.location
+  vm_name                = var.frontend_vm_name
+  vm_size                = var.frontend_vm_size
+  admin_username         = var.frontend_vm_admin_username
+  admin_ssh_public_key   = var.frontend_vm_admin_ssh_public_key
+  allowed_ssh_cidrs      = var.allowed_ssh_cidrs
+  allowed_frontend_cidrs = var.allowed_frontend_cidrs
+
+  tags = var.tags
+}

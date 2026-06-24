@@ -5,3 +5,12 @@ aks_cluster_name = "aks-voce-aluga-dev"
 allowed_ip_cidrs = ["ip-publico/32"]
 
 postgresql_administrator_password = "uma-senha-forte"
+
+# Conteudo do arquivo ~/.ssh/id_ed25519.pub
+frontend_vm_admin_ssh_public_key = "ssh"
+
+# IP publico para acesso administrativo por SSH.
+allowed_ssh_cidrs = ["ip-publico/32"]
+
+# IP publico de saida do AKS
+allowed_frontend_cidrs = ["ip-publico-aks/32"]

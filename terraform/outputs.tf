@@ -21,3 +21,17 @@ output "aks_resource_group_name" {
   description = "Resource Group onde o AKS foi criado."
   value       = azurerm_resource_group.voce_aluga.name
 }
+
+output "frontend_vm_public_ip" {
+  description = "IP publico da VM Docker. O acesso HTTP fica restrito ao gateway."
+  value       = module.compute.public_ip_address
+}
+
+output "frontend_vm_private_ip" {
+  description = "IP privado da VM Docker."
+  value       = module.compute.private_ip_address
+}
+
+output "frontend_vm_name" {
+  value = module.compute.vm_name
+}

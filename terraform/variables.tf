@@ -62,6 +62,40 @@ variable "aks_node_vm_size" {
   default     = "Standard_D2s_v3"
 }
 
+variable "frontend_vm_name" {
+  description = "Nome da VM que executara o container Docker do frontend."
+  type        = string
+  default     = "vm-voce-aluga-frontend"
+}
+
+variable "frontend_vm_size" {
+  description = "SKU da VM do frontend."
+  type        = string
+  default     = "Standard_D2as_v4"
+}
+
+variable "frontend_vm_admin_username" {
+  description = "Usuario administrador da VM do frontend."
+  type        = string
+  default     = "azureuser"
+}
+
+variable "frontend_vm_admin_ssh_public_key" {
+  description = "Chave publica SSH do administrador da VM."
+  type        = string
+  sensitive   = true
+}
+
+variable "allowed_ssh_cidrs" {
+  description = "CIDRs autorizados a acessar a VM por SSH."
+  type        = set(string)
+}
+
+variable "allowed_frontend_cidrs" {
+  description = "CIDRs autorizados a acessar o frontend. Use o IP de saida do AKS."
+  type        = set(string)
+}
+
 variable "tags" {
   description = "Tags aplicadas aos recursos Azure."
   type        = map(string)
