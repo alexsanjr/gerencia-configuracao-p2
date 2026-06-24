@@ -8,6 +8,7 @@
     - name: Aplicar recursos base do namespace
       ansible.builtin.command:
         cmd: kubectl apply -f {{ item }}
+        chdir: "{{ playbook_dir }}/../.."
       loop:
         - kubernetes/namespace.yaml
         - kubernetes/resource-quota.yaml
@@ -25,4 +26,5 @@
         cmd: >-
           kubectl -n voce-aluga rollout status
           deployment/voce-aluga-backend --timeout=180s
+        chdir: "{{ playbook_dir }}/../.."
       changed_when: false
