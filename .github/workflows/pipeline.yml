@@ -1,0 +1,117 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  pipeline:
+    runs-on: [self-hosted, linux]
+    env:
+      DB_AMBIENT: test
+      JWT_SECRET_KEY: chave-de-teste-com-mais-de-trinta-e-dois-caracteres
+      MAIL_HOST: localhost
+      MAIL_PORT: "2525"
+      MAIL_USERNAME: teste
+      MAIL_PASSWORD: teste
+      MAIL_FROM: teste@example.com
+      GATEWAY_URL: http://20.88.36.19
+      FRONTEND_IMAGE: alexsanjr/voce-aluga-frontend
+      SONAR_HOST_URL: http://127.0.0.1:9000
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: apis/frontend/package-lock.json
+
+      - name: Testar backend
+        working-directory: apis/backend
+        run: bash ./mvnw -B -Dproject.build.sourceEncoding=ISO-8859-1 test
+
+      - name: Testar frontend
+        working-directory: apis/frontend
+        run: |
+          npm install
+          npm run test:unit
+
+      - name: Iniciar SonarQube
+        run: |
+          docker rm -f voce-aluga-sonarqube || true
+          docker run -d --name voce-aluga-sonarqube --restart no -p 9000:9000 sonarqube:community
+          until curl --fail --silent "$SONAR_HOST_URL/api/system/status" | grep -q 'UP'; do sleep 10; done
+
+      - name: Analisar Quality Gate
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          docker run --rm --network host \
+            -e SONAR_HOST_URL -e SONAR_TOKEN \
+            -v "$GITHUB_WORKSPACE:/usr/src" -w /usr/src \
+            sonarsource/sonar-scanner-cli:latest \
+            -Dsonar.projectKey=voce-aluga \
+            -Dsonar.sources=apis/backend/src,apis/frontend/src \
+            -Dsonar.java.binaries=apis/backend/target/classes \
+            -Dsonar.qualitygate.wait=true
+
+      - name: SAST com Semgrep
+        run: docker run --rm -v "$GITHUB_WORKSPACE:/src" returntocorp/semgrep semgrep --config auto /src
+
+      - name: Build e push da imagem privada
+        if: github.ref == 'refs/heads/main'
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: |
+          echo "$DOCKER_HUB_TOKEN" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+          docker build --build-arg VITE_API_BASE_URL=/api \
+            -t "$FRONTEND_IMAGE:${GITHUB_SHA}" \
+            -t "$FRONTEND_IMAGE:latest" \
+            -f apis/frontend/Docker/Dockerfile apis/frontend
+          docker push "$FRONTEND_IMAGE:${GITHUB_SHA}"
+          docker push "$FRONTEND_IMAGE:latest"
+
+      - name: Deploy em homologacao com Ansible
+        if: github.ref == 'refs/heads/main'
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+          FRONTEND_VM_IP: ${{ secrets.FRONTEND_VM_IP }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '[frontend]\nfrontend ansible_host=%s ansible_user=azureuser\n' "$FRONTEND_VM_IP" > ansible/inventory/homologacao.ini
+          ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook --private-key ~/.ssh/id_ed25519 ansible/playbooks/deploy-docker.yml -e frontend_image="$FRONTEND_IMAGE:${GITHUB_SHA}"
+          ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook -i localhost, ansible/playbooks/deploy-k8s.yml
+
+      - name: DAST com OWASP ZAP
+        if: github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p reports
+          docker run --rm --network host -v "$GITHUB_WORKSPACE/reports:/zap/wrk:rw" \
+            ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t "$GATEWAY_URL" -J zap-report.json -I
+
+      - name: Publicar relatorio ZAP
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: reports/zap-report.json
+          if-no-files-found: warn
+
+      - name: Resumo
+        if: always()
+        run: echo "Pipeline ${{ job.status }}. Consulte o Quality Gate, Semgrep e o artefato ZAP."
