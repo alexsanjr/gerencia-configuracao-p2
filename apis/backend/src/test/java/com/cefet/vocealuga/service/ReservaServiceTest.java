@@ -104,7 +104,7 @@ public class ReservaServiceTest {
         verify(reservaRepository).save(captor.capture());
         Reserva reservaSalva = captor.getValue();
 
-        assertEquals(StatusReserva.PENDENTE, reservaSalva.getStatus());
+        assertEquals(StatusReserva.AGUARDANDO_PAGAMENTO, reservaSalva.getStatus());
         assertEquals(5L, result.getMotoristaId());
         assertEquals(motorista, reservaSalva.getMotorista());
     }
@@ -175,8 +175,8 @@ public class ReservaServiceTest {
         verify(reservaRepository).save(captor.capture());
         Reserva reservaSalva = captor.getValue();
 
-        assertEquals(StatusReserva.PENDENTE, reservaSalva.getStatus());
-        assertEquals(StatusReserva.PENDENTE, result.getStatus());
+        assertEquals(StatusReserva.AGUARDANDO_PAGAMENTO, reservaSalva.getStatus());
+        assertEquals(StatusReserva.AGUARDANDO_PAGAMENTO, result.getStatus());
     }
 
     @Test
