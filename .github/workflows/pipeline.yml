@@ -9,7 +9,7 @@ on:
 
 jobs:
   pipeline:
-    runs-on: [self-hosted, linux]
+    runs-on: [self-hosted, Linux, X64]
     env:
       DB_AMBIENT: test
       JWT_SECRET_KEY: chave-de-teste-com-mais-de-trinta-e-dois-caracteres
