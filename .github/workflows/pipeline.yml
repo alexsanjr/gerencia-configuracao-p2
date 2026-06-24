@@ -93,9 +93,10 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           mkdir -p ~/.ssh
-          printf '%s' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          printf '[frontend]\nfrontend ansible_host=%s ansible_user=azureuser\n' "$FRONTEND_VM_IP" > ansible/inventory/homologacao.ini
+          ssh-keygen -y -f ~/.ssh/id_ed25519 > /dev/null
+          printf '[frontend]\nfrontend-vm ansible_host=%s ansible_user=azureuser\n' "$FRONTEND_VM_IP" > ansible/inventory/homologacao.ini
           ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook --private-key ~/.ssh/id_ed25519 ansible/playbooks/deploy-docker.yml -e frontend_image="$FRONTEND_IMAGE:${GITHUB_SHA}"
           ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook -i localhost, ansible/playbooks/deploy-k8s.yml
 
