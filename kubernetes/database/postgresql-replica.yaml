@@ -37,7 +37,7 @@ spec:
         fsGroup: 1001
       containers:
         - name: postgresql
-          image: bitnami/postgresql:16
+          image: bitnamilegacy/postgresql:16.6.0-debian-12-r2
           imagePullPolicy: IfNotPresent
           ports:
             - name: postgresql
@@ -61,6 +61,15 @@ spec:
                 secretKeyRef:
                   name: postgresql-replication
                   key: postgres-password
+            - name: POSTGRESQL_USERNAME
+              value: vocealuga
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-replication
+                  key: application-password
+            - name: POSTGRESQL_DATABASE
+              value: voce_aluga
           readinessProbe:
             exec:
               command: ["/bin/sh", "-c", "pg_isready -U postgres"]
